@@ -1,0 +1,46 @@
+
+<div class="title"> <b>Предмет: </b> {{subjectName}}<b> Учебный год: </b> {{year}} </div>
+<div class="calendar">
+    <mat-form-field>
+      <mat-select    [(ngModel)]="selectedMonth" (ngModelChange)="getColumns()" 
+        required>
+        <mat-option *ngFor="let m of montharr" [value]="m.number">
+          {{m.month}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+   
+    <mat-form-field  *ngxPermissionsExcept="['Teacher']">
+      <mat-select [(ngModel)]="subject" (ngModelChange)="goSubjectPage()" 
+        required>
+        <mat-option *ngFor="let m of allSubject" [value]="m.idSubject">
+          {{m.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+<div>
+
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell class="studentName" *matHeaderCellDef> <b>Имя</b></mat-header-cell>
+    <mat-cell class="studentName" *matCellDef="let student"> {{student.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container *ngFor="let column of columns; let cIndex = index" [matColumnDef]="column" >
+    <mat-header-cell *matHeaderCellDef><b>{{ column | slice }}</b></mat-header-cell>
+    <mat-cell class="cell"*matCellDef="let row;"><input [textMask]="{mask: mask}" type="text" *ngxPermissionsOnly="['Admin','Teacher']" (blur)="changeMark($event.target.value,row.idStudent,cIndex)" value={{getMark(row.idStudent,cIndex)}}/><span *ngxPermissionsExcept="['Teacher','Admin']">{{getMark(row.idStudent,cIndex)}}</span></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+ 
+</mat-table>
+<div class="addStudent">
+<div *ngxPermissionsOnly="['Admin','Teacher']">
+    <input type="text" [(ngModel)]="name" value={{name}}/>
+    <button class="btn btn-primary" (click)="addStudent()">Добавить студента</button>
+    </div>
+</div>
+</div>
+<button  class="btn btn-primary" (click)="out()">В начало</button>

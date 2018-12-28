@@ -1,0 +1,15 @@
+<div *ngIf="!currentUser">
+        <button><a [routerLink]="['/register']" class="btn btn-link">Регистрация</a></button>
+        <button><a [routerLink]="['/login']" class="btn btn-link">Вход</a></button>
+</div>
+
+<button class="btn btn-primary" *ngxPermissionsOnly="['Admin']" (click)="edit()">Редактировать</button>
+<fieldset  [disabled]="disabled" class="mainPage">
+        <h1>Классный журнал </h1>
+    <input type="text" (blur)="classChange($event.target.value)" [(ngModel)]="thisClass" /> 
+    <span> класса </span> <br>
+    <span>  на </span> <input type="text" [textMask]="{mask: mask}" (blur)="yearChange($event.target.value)" [(ngModel)]="thisYear"/>
+    <span> учебный год </span>
+</fieldset>
+
+<button class="action"><a [routerLink]="['/subject']" class="btn btn-link">Открыть</a></button>

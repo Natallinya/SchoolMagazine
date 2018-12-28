@@ -1,0 +1,16 @@
+<div>
+ <input type="text" [(ngModel)]="subjectName" />
+ <button class="btn btn-primary" (click)="addSubject()">Добавить предмет</button>
+</div>
+
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell  *matHeaderCellDef> <b>Название предмета</b></mat-header-cell>
+    <mat-cell *matCellDef="let subject"><a [routerLink]="['/student',subject.idSubject]"> {{subject.name}} </a></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+ 
+</mat-table>
+
